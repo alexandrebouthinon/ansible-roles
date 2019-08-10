@@ -1,0 +1,40 @@
+---
+- name: "Set up Docker and Docker Compose"
+  include_vars: docker.yml
+
+- name: "Install docker CE dependencies"
+  apt:
+    name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']
+    update_cache: yes
+
+- name: "Add docker apt-key"
+  apt_key:
+    url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
+    state: present
+
+- name: "Add docker apt-repo"
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable'
+    state: present
+    filename: 'dockerproject'
+    update_cache: true
+
+- name: "Install Docker CE"
+  apt:
+    name: docker-ce
+    update_cache: yes
+    cache_valid_time: 3600
+  notify: enable docker
+
+- name: "Download docker-compose"
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0555
+
+- name: "Adding user(s) ({{ docker_users|join(', ') }}) to group docker"
+  user:
+    name: '{{ item }}'
+    groups: docker
+    append: yes
+  with_items: "{{ docker_users }}"

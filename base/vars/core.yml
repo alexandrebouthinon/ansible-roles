@@ -1,0 +1,17 @@
+---
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - gnupg2
+  - software-properties-common
+  - curl
+  - dnsutils
+  - git
+  - iptables
+  - jq
+  - python-setuptools
+  - sudo
+  - vim
+  - zsh
+  - htop

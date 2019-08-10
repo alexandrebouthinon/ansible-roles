@@ -1,0 +1,33 @@
+---
+# tasks file for base
+
+- name: "Set up server utils and users"
+  include: core.yml
+  tags:
+    - core
+    - users
+    - packages
+
+- name: "Set up server security"
+  include: security.yml
+  tags:
+    - security
+    - firewall
+
+- name: "Set up ZSH shell (with Oh My ZSH)"
+  include: shell.yml
+  tags:
+    - shell
+    - zsh
+
+- name: "Set up Docker and Docker Compose"
+  include: docker.yml
+  tags:
+    - docker
+    - docker-compose
+
+- name: "Set up Ouroboros for automatic Docker images updates"
+  include: ouroboros.yml
+  tags:
+    - ouroboros
+    - docker

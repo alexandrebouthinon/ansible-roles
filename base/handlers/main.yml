@@ -1,0 +1,36 @@
+---
+# handlers file for base
+- name: restart sshd
+  service:
+    name: ssh
+    state: restarted
+
+- name: enable fail2ban
+  service:
+    name: fail2ban
+    state: restarted
+    enabled: true
+
+- name: enable docker
+  service:
+    name: docker
+    state: restarted
+    enabled: true
+
+- name: enable ouroboros
+  service:
+    name: ouroboros
+    state: restarted
+    enabled: true
+
+- name: enable firewall
+  systemd:
+    name: firewall
+    state: restarted
+    enabled: true
+
+- name: reload sysctl
+  sysctl:
+    name: vm.swappiness
+    value: "5"
+    reload: true

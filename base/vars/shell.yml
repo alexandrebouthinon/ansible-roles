@@ -1,0 +1,10 @@
+---
+
+theme: spaceship
+custom_theme_repo: https://github.com/denysdovhan/spaceship-prompt
+config_root: true
+plugins:
+  - git
+  - docker
+  - debian
+  - systemd
