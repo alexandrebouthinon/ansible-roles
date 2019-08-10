@@ -1,13 +1,19 @@
 ---
-language: python
-python:
-  - "2.7"
-  - "3.6"
-services:
-  - docker
-install:
-  - pip install molecule docker pytest
-script:
-  - molecule --version
-  - ansible --version
-  - cd base && molecule test
+_template: &_template
+  stage: "Roles Testing with Molecule"
+  language: python
+  python: "3.6"
+  services:
+    - docker
+  cache: pip
+  install:
+    - pip install molecule docker pytest
+  script:
+    - molecule --version
+    - ansible --version
+    - cd "$TRAVIS_JOB_NAME" && molecule test
+
+jobs:
+  include:
+    - <<: *_template
+      name: base
