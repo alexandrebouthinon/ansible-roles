@@ -16,7 +16,7 @@ Role Variables
 Dependencies
 ------------
 
-[base.docker](../base.docker/README.md): 
+[base.docker](../base.docker/README.md)
 
 License
 -------
