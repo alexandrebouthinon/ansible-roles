@@ -1,0 +1,51 @@
+---
+# defaults file for base.profile
+packages:
+  default:
+    - apt-transport-https
+    - ca-certificates
+    - python-setuptools
+    - gnupg2
+    - software-properties-common
+    - curl
+    - dnsutils
+    - git
+    - sudo
+    - vim
+    - zsh
+  optional:
+    - htop
+    - jq
+
+root:
+  hmz: true
+  theme:
+    name: spaceship
+    repo: https://github.com/denysdovhan/spaceship-prompt
+  plugins:
+    - git
+    - docker
+    - debian
+    - systemd
+
+users:
+  - name: ubuntu
+    sudoer: false
+    theme:
+      name: agnoster
+    plugins:
+      - git
+      - docker
+      - debian
+      - systemd
+  - name: debian
+    sudoer: true
+    theme:
+      name: spaceship
+      repo: https://github.com/denysdovhan/spaceship-prompt
+    plugins:
+      - git
+      - docker
+      - debian
+      - systemd
+      - sudo

@@ -1,0 +1,130 @@
+---
+# tasks file for base.profile
+
+- name: "Install packages"
+  block:
+    - name: "Update system"
+      apt:
+        force_apt_get: true
+        update_cache: true
+        upgrade: dist
+
+    - name: "Install default packages"
+      apt:
+        name: "{{ packages.default }}"
+        force_apt_get: true
+
+    - name: "Install optional packages"
+      apt:
+        name: "{{ packages.optional }}"
+        force_apt_get: true
+      when: packages.optional is defined
+
+- name: "Create regular users"
+  user:
+    name: "{{ item.name }}"
+    shell: /usr/bin/zsh
+    append: true
+    state: present
+  with_items: "{{ users }}"
+
+- name: "Add regular users to sudo group"
+  user:
+    name: "{{ item.name }}"
+    groups:
+      - sudo
+    append: true
+    state: present
+  with_items: "{{ users }}"
+  when: item.sudoer
+
+- name: "Set up ZSH shell (with Oh My ZSH) for root"
+  block:
+    - name: "Install oh_my_zsh"
+      git:
+        repo: https://github.com/robbyrussell/oh-my-zsh
+        dest: /root/.oh-my-zsh
+        version: master
+      when: root.hmz
+
+    - name: "Install custom ZSH theme"
+      git:
+        repo: "{{ root.theme.repo }}"
+        dest: /root/.oh-my-zsh/custom/themes/{{ root.theme.name }}
+        version: master
+      when:
+        - root.hmz
+        - root.theme.repo is defined
+
+    - name: "Link ZSH theme file to custom theme directory"
+      file:
+        src: /root/.oh-my-zsh/custom/themes/{{ root.theme.name }}/{{ root.theme.name }}.zsh-theme
+        dest: /root/.oh-my-zsh/custom/themes/{{ root.theme.name }}.zsh-theme
+        state: link
+      when:
+        - root.hmz
+        - root.theme.repo is defined
+
+    - name: "Upload custom zshrc"
+      template:
+        src: zshrc.j2
+        dest: /root/.zshrc
+        owner: root
+        group: root
+        mode: 0644
+      vars:
+        user: "{{ root }}"
+      when: root.hmz
+
+    - name: "Set up root default shell to ZSH"
+      user:
+        name: root
+        shell: /usr/bin/zsh
+        append: true
+        state: present
+
+- name: "Set up ZSH shell (with Oh My ZSH) for regular users"
+  block:
+    - name: "Install oh_my_zsh"
+      become: true
+      become_user: "{{ item.name }}"
+      git:
+        repo: https://github.com/robbyrussell/oh-my-zsh
+        dest: /home/{{ item.name }}/.oh-my-zsh
+        version: master
+      with_items: "{{ users }}"
+
+    - name: "Install custom ZSH theme"
+      become: true
+      become_user: "{{ item.name }}"
+      git:
+        repo: "{{ item.theme.repo }}"
+        dest: /home/{{ item.name }}/.oh-my-zsh/custom/themes/{{ item.theme.name }}
+        version: master
+      with_items: "{{ users }}"
+      when:
+        - item.theme.repo is defined
+
+    - name: "Link ZSH theme to theme directory"
+      become: true
+      become_user: "{{ item.name }}"
+      file:
+        src: /home/{{ item.name }}/.oh-my-zsh/custom/themes/{{ item.theme.name }}/{{ item.theme.name }}.zsh-theme
+        dest: /home/{{ item.name }}/.oh-my-zsh/custom/themes/{{ item.theme.name }}.zsh-theme
+        state: link
+      with_items: "{{ users }}"
+      when:
+        - item.theme.repo is defined
+
+    - name: "Upload custom zshrc"
+      become: true
+      become_user: "{{ item.name }}"
+      template:
+        src: zshrc.j2
+        dest: /home/{{ item.name }}/.zshrc
+        owner: "{{ item.name }}"
+        group: "{{ item.name }}"
+        mode: 0644
+      vars:
+        user: "{{ item }}"
+      with_items: "{{ users }}"

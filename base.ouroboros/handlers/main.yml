@@ -1,0 +1,8 @@
+---
+# handlers file for base.ouroboros
+
+- name: enable ouroboros
+  service:
+    name: ouroboros
+    state: restarted
+    enabled: true

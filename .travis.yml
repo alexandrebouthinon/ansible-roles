@@ -1,6 +1,6 @@
 ---
-_template: &_template
-  stage: "Roles Testing with Molecule"
+_role: &_role
+  stage: "Roles Testing"
   language: python
   python: "3.6"
   services:
@@ -15,5 +15,11 @@ _template: &_template
 
 jobs:
   include:
-    - <<: *_template
-      name: base
+    - <<: *_role
+      name: base.profile
+    - <<: *_role
+      name: base.security
+    - <<: *_role
+      name: base.docker
+    - <<: *_role
+      name: base.ouroboros

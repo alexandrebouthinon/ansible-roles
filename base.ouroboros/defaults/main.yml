@@ -1,0 +1,4 @@
+---
+# defaults file for base.ouroboros
+
+check_interval: 300

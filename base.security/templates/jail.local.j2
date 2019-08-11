@@ -1,0 +1,6 @@
+{% for jail in fail2ban.jails %}
+[{{ jail.name }}]
+{% for key, value in jail.opts.items() %}
+{{ key }} = {{ value }}
+{% endfor %}
+{% endfor %}

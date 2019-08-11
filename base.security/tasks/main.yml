@@ -1,0 +1,55 @@
+---
+# tasks file for base.security
+
+- name: "Install Fail2Ban"
+  apt:
+    name: ['fail2ban', 'iptables', 'sudo']
+    update_cache: true
+    force_apt_get: true
+
+- name: "Configure Fail2Ban"
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - enable fail2ban
+
+- name: "Configure SSH Server"
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    backup: true
+    block: |
+      PasswordAuthentication no
+      PermitEmptyPasswords no
+      PermitRootLogin without-password
+      PermitUserEnvironment yes
+      PubkeyAuthentication yes
+  notify: restart sshd
+
+- name: "Configure Linux Kernel"
+  template:
+    src: sysctl.conf.j2
+    dest: /etc/sysctl.conf
+    owner: root
+    group: root
+  notify: reload sysctl
+
+- name: "Configure Firewall script"
+  template:
+    src: firewall.j2
+    dest: /etc/firewall
+    owner: root
+    group: root
+    mode: 0744
+
+- name: "Copy firewall systemd unit file"
+  copy:
+    src: firewall.service
+    dest: /etc/systemd/system/firewall.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: enable firewall

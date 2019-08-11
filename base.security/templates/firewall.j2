@@ -1,0 +1,67 @@
+#!/bin/bash
+# @author Alexandre Bouthinon
+
+# No spoofing.
+if [ -e /proc/sys/net/ipv4/conf/all/rp_filter ]; then
+  for filter in /proc/sys/net/ipv4/conf/*/rp_filter; do
+    echo 1 > $filter
+  done
+fi
+
+# Completely reset the firewall by removing all rules and chains.
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -t nat -F
+iptables -t mangle -F
+iptables -F
+iptables -X
+
+# Accept traffic from loopback interface (localhost).
+iptables -A INPUT -i lo -j ACCEPT
+
+# Forwarded ports.
+# Add a rule for each forwarded port #
+{% for port in firewall.ports.tcp.forwarded %}
+iptables -t nat -I PREROUTING -p tcp --dport {{ port.src }} -j REDIRECT --to-port {{ port.dest }}
+iptables -t nat -I OUTPUT -p tcp -o lo --dport {{ port.src }} -j REDIRECT --to-port {{ port.dest }}
+{% endfor %}
+{% for port in firewall.ports.udp.forwarded %}
+iptables -t nat -I PREROUTING -p udp --dport {{ port.src }} -j REDIRECT --to-port {{ port.dest }}
+iptables -t nat -I OUTPUT -p udp -o lo --dport {{ port.src }} -j REDIRECT --to-port {{ port.dest }}
+{% endfor %}
+
+# Open ports.
+# Add a rule for each open port #
+{% for port in firewall.ports.tcp.allowed %}
+iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+{% endfor %}
+{% for port in firewall.ports.udp.allowed %}
+iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+{% endfor %}
+
+# Accept icmp ping requests.
+iptables -A INPUT -p icmp -j ACCEPT
+
+# Allow NTP traffic for time synchronization.
+iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
+iptables -A INPUT -p udp --sport 123 -j ACCEPT
+
+# Additional custom rules.
+{% for rule in firewall.additional_rules %}
+{{ rule }}
+{% endfor %}
+
+# Allow established connections:
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Log EVERYTHING (ONLY for Debug).
+# iptables -A INPUT -j LOG
+
+{% if firewall.log_dropped_packets %}
+# Log other incoming requests (all of which are dropped) at 15/minute max.
+iptables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "Dropped by firewall: "
+{% endif %}
+
+# Drop all other traffic.
+iptables -A INPUT -j REJECT

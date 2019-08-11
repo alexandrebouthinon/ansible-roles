@@ -1,0 +1,7 @@
+---
+# defaults file for base.docker
+
+docker_users:
+  - debian
+
+compose_version: 1.24.1
