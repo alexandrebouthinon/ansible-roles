@@ -1,0 +1,15 @@
+[Unit]
+Description=Ouroboros
+Requires=docker.service
+After=docker.service
+
+[Service]
+WorkingDirectory=/opt/ouroboros
+
+ExecStart=/usr/local/bin/docker-compose up
+ExecStop=/usr/local/bin/docker-compose stop
+
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

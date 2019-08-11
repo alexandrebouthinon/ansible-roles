@@ -6,7 +6,7 @@ Install and configure Ouroboros to set up Docker images continuous update
 Requirements
 ------------
 
-Docker need to be running on the targeted host.
+Docker daemon needs to be running on the targeted host.
 
 Role Variables
 --------------

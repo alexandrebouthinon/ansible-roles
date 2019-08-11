@@ -1,0 +1,10 @@
+---
+# defaults file for base.ouroboros
+
+configuration:
+  CLEANUP: "true"
+  SELF_UPDATE: "true"
+  LOG_LEVEL: info
+  LABEL_ENABLE: "true"
+  LABELS_ONLY: "true"
+  INTERVAL: "120"

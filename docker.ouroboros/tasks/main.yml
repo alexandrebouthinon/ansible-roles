@@ -1,0 +1,27 @@
+---
+# tasks file for base.ouroboros
+
+- name: "Create Ouroboros workspace"
+  file:
+    path: /opt/ouroboros
+    state: directory
+    owner: root
+    group: docker
+
+- name: "Set up Ouroboros Docker Compose"
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/ouroboros/docker-compose.yml
+    owner: root
+    group: docker
+    mode: 0664
+  notify: enable ouroboros
+
+- name: "Set up Ouroboros systemd service"
+  template:
+    src: ouroboros.service.j2
+    dest: /etc/systemd/system/ouroboros.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: enable ouroboros

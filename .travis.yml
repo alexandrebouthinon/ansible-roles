@@ -22,4 +22,4 @@ jobs:
     - <<: *_role
       name: base.docker
     - <<: *_role
-      name: base.ouroboros
+      name: docker.ouroboros
