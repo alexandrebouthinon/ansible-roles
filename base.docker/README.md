@@ -13,7 +13,7 @@ good idea to mention in this section that the boto package is required.
 Role Variables
 --------------
 
-> see `default/main.yml`
+> see [default variables](./defaults/main.yml)
 
 License
 -------

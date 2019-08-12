@@ -10,7 +10,7 @@ Secure Debian based Linux server by setting up:
 Role Variables
 --------------
 
-> see `default/main.yml`
+> see [default variables](./defaults/main/yml)
 
 
 License

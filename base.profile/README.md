@@ -9,7 +9,7 @@ Role to set up server environment with:
 Role Variables
 --------------
 
-> see `default/main.yml`
+> see [default variables](./defaults/main.yml)
 
 License
 -------
