@@ -11,12 +11,12 @@ Docker daemon needs to be running on the targeted host.
 Role Variables
 --------------
 
-> see `default/main.yml`
+> see [default variables](./defaults/main.yml)
 
 Dependencies
 ------------
 
-[base.docker](../base.docker/README.md)
+[`base.docker`](../base.docker/)
 
 License
 -------
