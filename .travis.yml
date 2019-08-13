@@ -2,7 +2,8 @@
 _role: &_role
   stage: "Roles Testing"
   language: python
-  python: "3.6"
+  dist: bionic
+  python: "3.7"
   services:
     - docker
   cache: pip
@@ -23,3 +24,12 @@ jobs:
       name: base.docker
     - <<: *_role
       name: docker.ouroboros
+      script:
+        - cd "$TRAVIS_JOB_NAME"
+        - molecule lint
+        - molecule syntax
+        - molecule converge
+        - molecule idempotence
+        - sleep 20
+        - molecule verify
+        - molecule destroy
