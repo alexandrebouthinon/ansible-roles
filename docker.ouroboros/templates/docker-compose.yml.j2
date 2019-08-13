@@ -9,5 +9,6 @@ services:
       - {{ option }}={{ value }}
 {% endfor %}
     volumes:
+      - "/root/.docker/config.json:/root/.docker/config.json"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped

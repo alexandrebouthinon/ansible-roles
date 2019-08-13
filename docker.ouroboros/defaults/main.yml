@@ -7,4 +7,4 @@ configuration:
   LOG_LEVEL: info
   LABEL_ENABLE: "true"
   LABELS_ONLY: "true"
-  INTERVAL: "120"
+  INTERVAL: "300"
