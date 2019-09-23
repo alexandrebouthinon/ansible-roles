@@ -9,6 +9,5 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 def test_ouroboros_service(host):
     service = host.service('ouroboros')
     container = host.docker('ouroboros')
-    assert service.is_running
     assert service.is_enabled
     assert container.is_running
