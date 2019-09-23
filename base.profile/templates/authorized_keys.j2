@@ -1,0 +1,6 @@
+{% for authorized_user in user.ssh_authorized_users %}
+# {{ authorized_user }}
+{% for ssh_key in authorized_user.ssh_keys %}
+{{ ssh_key }}
+{% endfor %}
+{% endfor %}

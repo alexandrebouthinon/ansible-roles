@@ -1,8 +1,10 @@
-# Environment Variables {{ user }}
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
+export EDITOR="{{ user.editor|default('vim') }}"
 
 ZSH_THEME="{{ user.theme.name }}"
 plugins=({{ user.plugins|join(' ') }})
 
 source $ZSH/oh-my-zsh.sh
+
+

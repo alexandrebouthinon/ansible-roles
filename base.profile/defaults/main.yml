@@ -27,6 +27,15 @@ root:
     - docker
     - debian
     - systemd
+  editor: vim
+  ssh_authorized_users:
+    - name: Common Remote User
+      ssh_keys:
+        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
+    - name: Multi key Remote User
+      ssh_keys:
+        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
+        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
 
 users:
   - name: ubuntu
@@ -38,6 +47,15 @@ users:
       - docker
       - debian
       - systemd
+    editor: vim
+    ssh_authorized_users:
+      - name: Common Remote User
+        ssh_keys:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
+      - name: Multi key Remote User
+        ssh_keys:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
   - name: debian
     sudoer: true
     theme:
@@ -49,3 +67,10 @@ users:
       - debian
       - systemd
       - sudo
+    ssh_authorized_users:
+      - name: Common Remote User
+        ssh_keys:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"
+      - name: Debian Remote User
+        ssh_keys:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1hOH+lVrjUFqhHBC5pR6+ETcKrTJ0X6Hi5Jpqu6+J0SE7UKCEhdPnZWzRhdHCSiBpiICSjgU1srpR+xdwKTqSFX/F/iKsgEAooSpSJBVkM32P/e52AJUlkpDJiK5j2NR7dWgrkU6h7niadqwlTMY/eF8V0RdQ9UrUYtpPqpS/7lUjlmrFPJDm10kXkyJRPP8iozvmXmiEtZJ7+RIxAUyG2kf6T82X6+NKckD9SZHVwtmgmtqlj19ptI6eDmiPhGicUb6yi2egjI+NIfTC0Pus7iVZ2uzUF3DzkPj2M7MGE5+YMZaZcGJUwJezLf7IVqUoiCr3kszumroa0NgVY5Yf test@test.com"

@@ -19,6 +19,8 @@ def test_pkg(host, pkg):
 
 def test_root(host):
     user = host.user('root')
+    ssh_keys = host.file("/root/.ssh/authorized_keys").content_string.split(
+        '\n')
 
     assert user.exists
     assert user.shell == '/usr/bin/zsh'
@@ -27,10 +29,13 @@ def test_root(host):
     assert host.file(user.home + '/.zshrc').contains('ZSH_THEME="spaceship"')
     assert host.file(user.home +
                      '/.zshrc').contains('plugins=(git docker debian systemd)')
+    assert len(list(filter(None, ssh_keys))) == 5
 
 
 def test_usr_ubuntu(host):
     user = host.user('ubuntu')
+    ssh_keys = host.file(
+        "/home/ubuntu/.ssh/authorized_keys").content_string.split('\n')
 
     assert user.exists
     assert user.shell == '/usr/bin/zsh'
@@ -41,10 +46,13 @@ def test_usr_ubuntu(host):
     assert host.file(user.home + '/.zshrc').contains('ZSH_THEME="agnoster"')
     assert host.file(user.home +
                      '/.zshrc').contains('plugins=(git docker debian systemd)')
+    assert len(list(filter(None, ssh_keys))) == 5
 
 
 def test_usr_debian(host):
     user = host.user('debian')
+    ssh_keys = host.file(
+        "/home/debian/.ssh/authorized_keys").content_string.split('\n')
 
     assert user.exists
     assert user.shell == '/usr/bin/zsh'
@@ -55,3 +63,4 @@ def test_usr_debian(host):
     assert host.file(user.home + '/.zshrc').contains('ZSH_THEME="spaceship"')
     assert host.file(user.home + '/.zshrc').contains(
         'plugins=(git docker debian systemd sudo)')
+    assert len(list(filter(None, ssh_keys))) == 4

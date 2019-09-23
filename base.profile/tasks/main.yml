@@ -1,6 +1,10 @@
 ---
 # tasks file for base.profile
 
+# --------------
+# Base packages
+# --------------
+
 - name: "Install packages"
   block:
     - name: "Update system"
@@ -20,6 +24,10 @@
         force_apt_get: true
       when: packages.optional is defined
 
+# ---------------
+# Users creation
+# ---------------
+
 - name: "Create regular users"
   user:
     name: "{{ item.name }}"
@@ -37,6 +45,10 @@
     state: present
   with_items: "{{ users }}"
   when: item.sudoer
+
+# --------------------
+# Custom Shell config
+# --------------------
 
 - name: "Set up ZSH shell (with Oh My ZSH) for root"
   block:
@@ -125,6 +137,58 @@
         owner: "{{ item.name }}"
         group: "{{ item.name }}"
         mode: 0644
+      vars:
+        user: "{{ item }}"
+      with_items: "{{ users }}"
+
+# --------------------
+# SSH Authorized keys
+# --------------------
+
+- name: "Add remote users ssh keys for root"
+  block:
+    - name: "Create .ssh directory for root"
+      become: true
+      become_user: root
+      file:
+        path: /root/.ssh
+        owner: root
+        group: root
+        mode: 0700
+        state: directory
+    - name: "Add authorized_keys file for root"
+      become: true
+      become_user: root
+      template:
+        src: authorized_keys.j2
+        dest: /root/.ssh/authorized_keys
+        owner: root
+        group: root
+        mode: 0600
+      vars:
+        user: "{{ root }}"
+
+- name: "Add remote users ssh keys for regular users"
+  block:
+    - name: "Create .ssh directory for regular users"
+      become: true
+      become_user: "{{ item.name }}"
+      file:
+        path: /home/{{ item.name }}/.ssh
+        owner: "{{ item.name }}"
+        group: "{{ item.name }}"
+        mode: 0700
+        state: directory
+      with_items: "{{ users }}"
+    - name: "Add authorized_keys file for regular users"
+      become: true
+      become_user: "{{ item.name }}"
+      template:
+        src: authorized_keys.j2
+        dest: /home/{{ item.name }}/.ssh/authorized_keys
+        owner: "{{ item.name }}"
+        group: "{{ item.name }}"
+        mode: 0600
       vars:
         user: "{{ item }}"
       with_items: "{{ users }}"
